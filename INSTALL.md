@@ -2,13 +2,20 @@
 
 Here are several more ways to install `warp4j`.
 
+## Install script
+Run the [install.sh](./install.sh) script from source or use the following command:
+```sh
+curl -s https://github.com/kirbylink/warp4j/raw/branch/master/install.sh | /bin/sh -s
+```
+
+
 ## Manual
 
-First install [warp-packer](https://github.com/dgiagio/warp/releases) and ensure other common tools available: `awk`, `curl`, `file`, `grep`, `sed`, `sort`, `tar`, `unzip`, optional: `zip`. Then install `warp4j` like this:
+First install [warp-packer](https://github.com/kirbylink/warp/releases) and ensure other common tools available: `awk`, `curl`, `file`, `grep`, `sed`, `sort`, `tar`, `unzip`, optional: `zip`. Then install `warp4j` like this:
 
 ```
 $ LOCATION=/usr/local/bin \
-LINK=https://raw.githubusercontent.com/guziks/warp4j/stable/warp4j \
+LINK=https://github.com/kirbylink/warp4j/raw/branch/master/warp4j \
 TEMP_LOCATION=/tmp/warp4j \
 bash -c 'curl -fsSL -o $TEMP_LOCATION $LINK && \
 sudo install -D \
@@ -22,14 +29,4 @@ Previous command can be also used to upgrade to the latest version.
 
 ## Docker
 
-See docker hub [page](https://hub.docker.com/r/guziks/warp4j).
-
-## Moor
-
-Instead of direct `docker run` command you can make a launcher with [moor](https://github.com/guziks/moor):
-
-```
-$ moor guziks/warp4j:stable warp4j
-```
-
-Then use as an ordinary command.
+See [Dockerfile](./Dockerfile)
