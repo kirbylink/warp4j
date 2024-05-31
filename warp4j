@@ -4,53 +4,52 @@ function print_help {
     echo
     echo 'Usage: warp4j [options] <app.jar>'
     echo
-    echo 'Turn JAR (java archive) into self-contained executable'
+    echo 'Turn JAR (java archive) into a self-contained executable'
     echo
     echo 'Options:'
     echo '  -j, --java-version   <version>'
-    echo '                       override JDK/JRE version'
-    echo '                       examples: "17", "17.0", "17.0.2", "17.0.2+9"'
+    echo '                       Override JDK/JRE version'
+    echo '                       Examples: "17", "17.0", "17.0.2", "17.0.2+9"'
     echo '                       (default: 17)'
     echo '  -cp, --class-path    <classpath>'
-    echo '                       adds additional classpaths to the jdeps call'
-    echo '  --auto-class-path    extract and get class-path values from jar file'
-    echo '                       ignored when -cp, --class-path is set'
-    echo '  --spring-boot        extract and get class-path values from'
+    echo '                       Adds additional classpaths to the jdeps call'
+    echo '  --auto-class-path    Extract and get class-path values from jar file'
+    echo '                       Ignored when -cp, --class-path is set'
+    echo '  --spring-boot        Extract and get class-path values from'
     echo '                       Spring-Boot application jar file'
-    echo '                       ignored when -cp, --class-path is set'
+    echo '                       Ignored when -cp, --class-path is set'
     echo '  -o, --output         <directory>'
-    echo '                       override output directory;'
-    echo '                       this is relative to current PWD'
+    echo '                       Override output directory;'
+    echo '                       This is relative to current PWD'
     echo '                       (default: ./warped)'
     echo '  -p, --prefix         <prefix>'
-    echo '                       if set, warp-packer will use the prefix'
-    echo '                       as target folder in which the '
+    echo '                       If set, warp-packer will use the prefix'
+    echo '                       as target folder in which the'
     echo '                       application should be extracted'
-    echo '  --list               show available java releases;'
-    echo '                       takes into consideration other options:'
+    echo '  --list               Show available java releases;'
+    echo '                       Takes into consideration other options:'
     echo '                       "--java-version", "--no-optimize", "--jvm-impl";'
-    echo '                       the output may be used to specify concrete'
+    echo '                       The output may be used to specify concrete'
     echo '                       "--java-version"'
-    echo '  --no-optimize        use JRE instead of optimized JDK;'
-    echo '                       by default jdeps and jlink are used to create'
+    echo '  --no-optimize        Use JRE instead of optimized JDK;'
+    echo '                       By default jdeps and jlink are used to create'
     echo '                       optimized JDK for the particular jar;'
     echo '                       JRE is always used for java 8'
-    echo '  --pull               check if more recent JDK/JRE distro is available;'
-    echo '                       by default latest cached version that matches'
+    echo '  --pull               Check if more recent JDK/JRE distro is available;'
+    echo '                       By default latest cached version that matches'
     echo '                       "--java-version" is used'
-    echo '                       to get the classpath for jdeps call'
-    echo '  --linux              create binary for Linux'
-    echo '  --macos              create binary for macOS'
-    echo '  --windows            create binary for Windows'
-    echo '                       if no targets are specified then binaries for'
+    echo '  --linux              Create binary for Linux'
+    echo '  --macos              Create binary for macOS'
+    echo '  --windows            Create binary for Windows'
+    echo '                       If no targets are specified then binaries for'
     echo '                       all targets are created'
     echo '  --jvm-options        <options>'
-    echo '                       passed to java like this:'
+    echo '                       Passed to java like this:'
     echo '                       "java <options> -jar <jar file>";'
-    echo '                       use quotes when passing multiple options'
-    echo "                       example: '-Xms512m -Xmx1024m'"
-    echo '  -s, --silent         using javaw instead of java for windows'
-    echo '  -h, --help           show this message'
+    echo '                       Use quotes when passing multiple options'
+    echo "                       Example: '-Xms512m -Xmx1024m'"
+    echo '  -s, --silent         Using javaw instead of java for windows'
+    echo '  -h, --help           Show this message'
     exit
 }
 
@@ -793,11 +792,16 @@ function warp_targets() {
             --output "$WARPED_TEMP_PATH/$MAC/$APP_NAME" \
             &> /dev/null
         fail_if $? "Failed to warp for $MAC"
+        echo "Creating runnable $MAC application bundle"
+        mkdir "$WARPED_TEMP_PATH/$MAC/$APP_NAME.app"
+        cp "$WARPED_TEMP_PATH/$MAC/$APP_NAME" "$WARPED_TEMP_PATH/$MAC/$APP_NAME.app"
         echo "Archiving for $MAC..."
-        tar -C "$WARPED_TEMP_PATH/$MAC" -czf "$WARPED_TEMP_PATH/$APP_NAME-$MAC-x64.tar.gz" "$APP_NAME"
+        tar -C "$WARPED_TEMP_PATH/$MAC" -czf "$WARPED_TEMP_PATH/$APP_NAME-$MAC-x64.tar.gz" "$APP_NAME.app"
         fail_if $? "Failed to make archive for $MAC"
+        mv "$WARPED_TEMP_PATH/$APP_NAME-$MAC-x64.tar.gz" "$WARPED_PATH/"
         mv "$WARPED_TEMP_PATH/$MAC/$APP_NAME" "$WARPED_PATH/$APP_NAME-$MAC-x64"
-        mv "$WARPED_TEMP_PATH/$APP_NAME-$MAC-x64.tar.gz" "$WARPED_PATH"
+        rm "$WARPED_TEMP_PATH/$MAC/$APP_NAME.app/$APP_NAME"
+        rmdir "$WARPED_TEMP_PATH/$MAC/$APP_NAME.app"
         rmdir "$WARPED_TEMP_PATH/$MAC"
     fi
 
