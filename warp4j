@@ -31,6 +31,9 @@ function print_help {
     echo '                       "--java-version", "--no-optimize", "--jvm-impl";'
     echo '                       The output may be used to specify concrete'
     echo '                       "--java-version"'
+    echo '  --add-modules        A list of additional java modules that should'
+    echo '                       be added to the optimized JDK. Separate each'
+    echo '                       module with commas and no spaces'
     echo '  --no-optimize        Use JRE instead of optimized JDK;'
     echo '                       By default jdeps and jlink are used to create'
     echo '                       optimized JDK for the particular jar;'
@@ -158,6 +161,10 @@ while [[ $# -gt 0 ]]; do
     --list)
         LIST_RELEASES=true
         shift
+    ;;
+    --add-modules)
+        ADD_MODULES="$2"
+        shift 2
     ;;
     --no-optimize)
         NO_OPTIMIZE=true
@@ -694,6 +701,10 @@ if [[ $JAVA_DISTRO_TYPE == $DISTRO_TYPE_JDK ]]; then
     else
         echo "Fetch modules with default behavior"
         MODULES=$("$JDEPS" --print-module-deps --ignore-missing-deps --multi-release $JAVA_VERSION_BASE "$JAR" | grep -v Warning)
+    fi
+    if [ -n "$ADD_MODULES" ]; then
+        echo "Adding additional modules to optimized JDK: $ADD_MODULES"
+        MODULES=$ADD_MODULES,$MODULES
     fi
 fi
 

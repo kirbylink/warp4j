@@ -78,13 +78,16 @@ Options:
                        (default: ./warped)
   -p, --prefix         <prefix>
                        If set, warp-packer will use the prefix
-                       as target folder in which the 
+                       as target folder in which the
                        application should be extracted
   --list               Show available java releases;
                        Takes into consideration other options:
                        "--java-version", "--no-optimize", "--jvm-impl";
                        The output may be used to specify concrete
                        "--java-version"
+  --add-modules        A list of additional java modules that should
+                       be added to the optimized JDK. Separate each
+                       module with commas and no spaces
   --no-optimize        Use JRE instead of optimized JDK;
                        By default jdeps and jlink are used to create
                        optimized JDK for the particular jar;
