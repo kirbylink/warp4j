@@ -685,7 +685,7 @@ if [[ $JAVA_DISTRO_TYPE == $DISTRO_TYPE_JDK ]]; then
     if [ -n "$CLASS_PATH" ]
     then
         echo "Using given classpaths: $CLASS_PATH"
-        MODULES=$($JDEPS --class-path=$CLASS_PATH --print-module-deps --ignore-missing-deps --multi-release $JAVA_VERSION_BASE $JAR | grep -v Warning)
+        MODULES=$($JDEPS --class-path $CLASS_PATH --ignore-missing-deps --list-deps --multi-release $JAVA_VERSION_BASE $JAR  | awk '{print $1}'  | grep -Ev '^(Warning|Error:|Not\sfound|.*\.jar$|ch\.|com\.|org\.)' | sort -u | paste -sd, -)
     elif [ "$AUTO_CLASS_PATH" ]
     then
         echo "Extracting jar file to get classpath"
