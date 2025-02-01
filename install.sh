@@ -128,7 +128,7 @@ get_missing_deps() {
     fi
 }
 
-WARP4J_LINK="https://github.com/kirbylink/warp4j/raw/branch/master/warp4j"
+WARP4J_LINK="https://github.com/kirbylink/warp4j/raw/refs/heads/master/warp4j"
 
 echo "Getting information about warp-packer releases..."
 WARP_LINK=$(get_warp_link $THIS_PLATFORM $THIS_ARCHITECTURE)

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.2] - 2025-02-01
+### Fixed
+- Submodules removed when Jdep collects necessary modules
+- install.sh: Fix GitHubs warp4j download link
+
 ## [v1.2.1] - 2025-01-17
 ### Fixed
 - Improved transitive dependency detection for `jdeps` call
@@ -32,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - See origin repository: https://github.com/guziks/warp4j
 
 [unreleased]: https://github.com/kirbylink/warp4j/compare/master...HEAD
+[v1.2.2]: https://github.com/kirbylink/warp4j/compare/v1.2.1...v1.2.2
 [v1.2.1]: https://github.com/kirbylink/warp4j/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/kirbylink/warp4j/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://github.com/kirbylink/warp4j/compare/v1.0.0...v1.1.0

@@ -20,7 +20,7 @@ Just put both `warp4j` and `warp-packer` somewhere in your PATH and run `warp4j 
 Curl one-liner installs the latest versions of both `warp4j` and `warp-packer`:
 
 ```
-bash -c "$(curl -fsSL https://github.com/kirbylink/warp4j/raw/branch/master/install.sh)"
+bash -c "$(curl -fsSL https://github.com/kirbylink/warp4j/raw/refs/heads/master/install.sh)"
 ```
 
 This script will show missing dependencies (if there are any); they must be installed with your package manager.
